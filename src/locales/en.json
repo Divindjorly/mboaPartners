@@ -1,0 +1,606 @@
+{
+  "meta": {
+    "site_name": "Mboa Partners",
+    "home_title": "Mboa Partners — Restaurants & delivery companies",
+    "home_description": "Register your restaurant or delivery company on Mboa and grow your business in Congo.",
+    "restaurant_title": "Register my restaurant",
+    "restaurant_description": "Register your restaurant or shop on Mboa and get orders delivered across the city.",
+    "fleet_title": "Register my delivery company",
+    "fleet_description": "Register your delivery company on Mboa and give your riders jobs every day.",
+    "privacy_title": "Privacy policy",
+    "privacy_description": "How Mboa collects, uses and protects the data of partners who sign up.",
+    "about_title": "About Mboa",
+    "about_description": "Mboa Delivery connects customers, businesses and delivery companies within a single ecosystem, in the Republic of Congo.",
+    "login_title": "Partner space login",
+    "reset_title": "Forgot password",
+    "space_title": "My application"
+  },
+  "common": {
+    "optional": "Optional",
+    "back_home": "Back to home",
+    "partners_badge": "Partners",
+    "logo_alt": "Mboa Delivery",
+    "logo_home": "Mboa Delivery — home",
+    "language": "Language",
+    "languages": {
+      "fr": "Français",
+      "en": "English"
+    },
+    "dev_image_hint": "Photo to come: “{{name}}” ({{recommended}})"
+  },
+  "nav": {
+    "label": "Main navigation",
+    "restaurants": "Restaurants",
+    "delivery": "Delivery",
+    "how_it_works": "How it works",
+    "faq": "FAQ",
+    "open_menu": "Open menu",
+    "close_menu": "Close menu",
+    "about": "About us",
+    "login": "Log in",
+    "my_space": "My space"
+  },
+  "footer": {
+    "tagline": "The ordering and delivery platform connecting restaurants, riders and customers in Congo.",
+    "become_partner": "Become a partner",
+    "register_restaurant": "Register my restaurant",
+    "register_fleet": "Register my delivery company",
+    "help": "Help",
+    "faq": "Frequently asked questions",
+    "how_it_works": "How it works",
+    "copyright": "© 2026 Mboa Delivery · Republic of Congo",
+    "legal": "Legal",
+    "privacy": "Privacy policy",
+    "app_title": "The Mboa Delivery app",
+    "app_soon": "Coming soon on",
+    "about": "About Mboa"
+  },
+  "home": {
+    "issue": "Partner programme · Republic of Congo",
+    "hero": {
+      "sticker": "Start to",
+      "title": "sell and deliver with",
+      "brand": "Mboa",
+      "subtitle": "Restaurants and delivery companies: join the platform that connects your services with customers in your city.",
+      "cta_restaurant": "I run a restaurant",
+      "cta_fleet": "I run a rider fleet"
+    },
+    "restaurants": {
+      "title": "Restaurants and shops",
+      "lead": "Focus on your cooking. Mboa brings you the orders, a partner rider delivers them.",
+      "caption": "Restaurants, fast food, bakeries, grocery stores, caterers: every food business is welcome.",
+      "points": {
+        "orders": {
+          "title": "Orders arrive live.",
+          "text": "Accept, prepare and track every order from your phone or tablet."
+        },
+        "delivery": {
+          "title": "Delivery is handled.",
+          "text": "A partner rider picks up the order at your place and hands it to the customer."
+        },
+        "payments": {
+          "title": "You get paid by Mobile Money.",
+          "text": "Every sale is collected and tracked in your Mboa wallet."
+        },
+        "control": {
+          "title": "You stay in control.",
+          "text": "Menu, prices, opening hours: open or close your business whenever you want."
+        }
+      },
+      "cta": "Register my business"
+    },
+    "fleet": {
+      "title": "Delivery companies",
+      "lead": "Your riders get jobs every day. You follow all the activity from your space.",
+      "caption": "Courier companies and motorbike fleets of every size.",
+      "points": {
+        "invite": {
+          "title": "You invite your riders.",
+          "text": "One personal access code per rider: they finish signing up in the Mboa Delivery app."
+        },
+        "tracking": {
+          "title": "You track in real time.",
+          "text": "Who is online, where your riders are, how each delivery is going."
+        },
+        "manage": {
+          "title": "You manage your fleet.",
+          "text": "Profiles, vehicles and documents; activate or suspend a rider in one click."
+        },
+        "dashboard": {
+          "title": "You steer with numbers.",
+          "text": "Today's deliveries, history and your company's earnings."
+        }
+      },
+      "cta": "Register my company"
+    },
+    "steps": {
+      "title": "4 simple steps to get started with Mboa",
+      "signup": {
+        "title": "Sign-up",
+        "text": "You describe your business and the account owner. Five minutes is enough."
+      },
+      "verify": {
+        "title": "Verification",
+        "text": "You confirm your email address with the code you receive, then access your partner space."
+      },
+      "review": {
+        "title": "Review",
+        "text": "You upload your documents online; our team reviews them within 48 hours, excluding weekends."
+      },
+      "launch": {
+        "title": "Launch",
+        "text": "Your business goes live, or your riders receive their first jobs."
+      },
+      "cta": "Choose my path"
+    },
+    "faq": {
+      "title": "Frequently asked questions",
+      "cost": {
+        "q": "Is signing up free?",
+        "a": "Yes, signing up is free. Commercial terms (commission, payout schedule) are presented by an advisor when your application is reviewed."
+      },
+      "documents": {
+        "q": "Which documents do I need?",
+        "a": "For a restaurant: RCCM, NIU, the manager's ID, a location map (or a photo of the storefront) and the operating licence. For a delivery company: RCCM, NIU, the manager's ID and the vehicle insurance certificate; your riders are then added in the fleet panel once your application is approved. You upload the documents in your partner space right after signing up."
+      },
+      "riders": {
+        "q": "How do my riders join Mboa?",
+        "a": "Once your company is approved, you add your riders in the fleet panel, one by one or with an Excel file. Each receives an invitation code, downloads the Mboa Delivery app and finishes signing up."
+      },
+      "cities": {
+        "q": "Which cities is Mboa available in?",
+        "a": "Mboa is launching in the Republic of Congo. You can sign up from any city: an advisor will tell you when the service opens in your area."
+      },
+      "code": {
+        "q": "I didn't receive the verification code.",
+        "a": "The code is sent to the email address you entered. Check your spam folder, wait a minute, then use “Resend code”. You can also log in later: a new code will be sent to you."
+      }
+    },
+    "closing": {
+      "title_1": "We start",
+      "title_2": "whenever you're ready.",
+      "text": "Five minutes to sign up, then an advisor supports you all the way to launch.",
+      "restaurant": "Register my business",
+      "fleet": "Register my delivery company"
+    }
+  },
+  "onboarding": {
+    "steps": {
+      "label": "Sign-up steps",
+      "form": "Details",
+      "verify": "Verification",
+      "dossier": "Application"
+    },
+    "shell": {
+      "perks_title": "What you get",
+      "time_title": "Free, about 5 minutes.",
+      "time_text": "You will then upload your official documents (RCCM, NIU, ID…) in your partner space."
+    },
+    "restaurant": {
+      "eyebrow": "Restaurants & shops",
+      "title": "Register your business",
+      "intro": "Join Mboa and offer your dishes to customers in your city, delivered by trusted riders.",
+      "perks": {
+        "orders": "Receive orders directly on your tablet or phone",
+        "delivery": "Delivery is handled by Mboa partner riders",
+        "payments": "Mobile Money payments tracked in real time",
+        "autonomy": "Manage your menu, hours and availability yourself"
+      }
+    },
+    "fleet": {
+      "eyebrow": "Delivery companies",
+      "title": "Register your delivery company",
+      "intro": "Connect your fleet to Mboa: your riders get jobs, you follow all activity from your space.",
+      "perks": {
+        "invite": "Invite your riders with a personal access code",
+        "tracking": "Track your riders and their deliveries in real time",
+        "control": "Activate or suspend a rider in one click",
+        "history": "See your fleet's history and earnings"
+      }
+    },
+    "sections": {
+      "company": {
+        "title": "Your company",
+        "description": "The delivery company's legal details."
+      },
+      "manager": {
+        "title": "Fleet manager",
+        "description": "The person who will manage riders and log in to the company space."
+      },
+      "fleet_security": {
+        "title": "Account security",
+        "description": "Choose the password for the company space."
+      },
+      "business": {
+        "title": "Your business",
+        "description": "What your customers will see in the app."
+      },
+      "address": {
+        "title": "Address",
+        "description": "Where riders will pick up orders."
+      },
+      "legal": {
+        "title": "Legal details",
+        "description": "Optional for now, but speeds up the review."
+      },
+      "owner": {
+        "title": "Manager and account",
+        "description": "The person responsible for the business on Mboa."
+      }
+    },
+    "fields": {
+      "companyName": "Company name",
+      "companyName_placeholder": "E.g. Express Couriers Ltd",
+      "rccmNumber": "RCCM number",
+      "rccmNumber_hint": "Trade register.",
+      "taxId": "NIU",
+      "taxId_hint": "Unique tax identification number.",
+      "headOfficeAddress": "Head office address",
+      "headOfficeAddress_placeholder": "E.g. 12 avenue de la Paix, Poto-Poto",
+      "city": "City",
+      "city_placeholder": "Choose a city",
+      "contactPhone": "Company phone",
+      "contactEmail": "Company email",
+      "managerFirstName": "First name",
+      "managerLastName": "Last name",
+      "managerPhone_fleet": "Mobile phone",
+      "login_phone_hint": "So your advisor can reach you and you receive our WhatsApp notifications.",
+      "managerEmail": "Email",
+      "businessName": "Business name",
+      "businessName_placeholder": "E.g. Chez Mama Ngouabi",
+      "businessType": "Business type",
+      "phoneNumber": "Business phone",
+      "email": "Email",
+      "addressLine": "Address",
+      "addressLine_placeholder": "E.g. Avenue Matsoua, Bacongo, opposite Total market",
+      "addressLine_hint": "Street, district and a well-known landmark.",
+      "legalName": "Legal name",
+      "legalName_placeholder": "E.g. Mama Ngouabi Ltd",
+      "managerFullName": "Manager's full name",
+      "managerFullName_placeholder": "First and last name",
+      "samePhone": "The manager uses the same number as the business",
+      "managerPhone": "Manager's phone",
+      "phone_placeholder": "06 123 45 67",
+      "password": "Password",
+      "password_hint": "At least 12 characters. An easy-to-remember phrase works best.",
+      "confirmPassword": "Confirm password",
+      "show_password": "Show password",
+      "hide_password": "Hide password",
+      "consent": "I agree that Mboa processes this information to review my application and contacts me about my sign-up.",
+      "honeypot": "Website",
+      "show_short": "Show",
+      "hide_short": "Hide",
+      "consent_privacy": "Read the privacy policy",
+      "login_email_hint": "Used to log in; you will receive a verification code there."
+    },
+    "business_types": {
+      "restaurant": "Restaurant",
+      "fast_food": "Fast food / snack bar",
+      "bakery": "Bakery / pastry shop",
+      "grocery": "Grocery / mini-market",
+      "caterer": "Caterer"
+    },
+    "location": {
+      "label": "Business GPS location",
+      "use_current": "Use my current location",
+      "saved": "Location saved",
+      "manual_show": "Enter coordinates",
+      "manual_hide": "Hide manual entry",
+      "hint": "Do this from your business: the location is used to compute delivery distances.",
+      "denied": "Location unavailable. Allow location access or enter the coordinates (Google Maps → long-press on your business).",
+      "latitude": "Latitude",
+      "longitude": "Longitude",
+      "check_map": "Check on the map ({{lat}}, {{lng}})"
+    },
+    "form": {
+      "submit": "Send my application",
+      "submitting": "Sending…",
+      "fix_fields": "Some fields need fixing before sending."
+    }
+  },
+  "errors_page": {
+    "title": "Something went wrong",
+    "text": "We couldn't display this page. Please try again in a moment.",
+    "retry": "Try again",
+    "not_found_title": "Page not found",
+    "not_found_text": "This page doesn't exist or has been moved."
+  },
+  "images": {
+    "hero": "A smiling chef in a wax-print headscarf seated in her restaurant with a dish",
+    "restaurant": "Fast-food spread: burger, fried chicken, fries, meat and sauces",
+    "fleet": "Row of delivery motorbikes fitted with green insulated bags",
+    "signupRestaurant": "Fast-food dining room with its counter and lit menu boards"
+  },
+  "validation": {
+    "required": "This field is required.",
+    "too_long": "This field is too long.",
+    "invalid_characters": "This field contains characters that aren't allowed.",
+    "email": "Invalid email address.",
+    "phone": "Invalid Congolese number (e.g. 06 123 45 67).",
+    "city": "Choose a city.",
+    "business_type": "Choose a business type.",
+    "coordinates_required": "GPS location required: use the button or enter the coordinates.",
+    "out_of_congo": "This location is outside Congo.",
+    "password_min": "At least 12 characters.",
+    "password_max": "128 characters maximum.",
+    "password_common": "This password is too common. Choose another one.",
+    "password_contains_phone": "The password must not contain your phone number.",
+    "password_mismatch": "Passwords don't match.",
+    "consent": "You must agree to continue.",
+    "otp_format": "Enter the 6-digit code you received."
+  },
+  "api_errors": {
+    "VALIDATION_ERROR": "Some fields need fixing.",
+    "UPSTREAM_REJECTED": "The request was rejected.",
+    "ACCOUNT_CONFLICT": "We can't create an account with these details. If you already have a Mboa account, log in or contact support.",
+    "RATE_LIMITED": "Too many attempts. Please try again in a few minutes.",
+    "REQUEST_BLOCKED": "Your request could not be sent.",
+    "OTP_INVALID": "Incorrect code. Check it or request a new one.",
+    "OTP_SEND_FAILED": "The code couldn't be resent. Please try again in a moment.",
+    "UPSTREAM_UNAVAILABLE": "The sign-up service is having trouble. Please try again in a few minutes.",
+    "UPSTREAM_UNREACHABLE": "We can't reach the sign-up service. Check your connection and try again.",
+    "UPSTREAM_TIMEOUT": "The service is taking too long to respond. Please try again in a moment.",
+    "INTERNAL_ERROR": "An unexpected error occurred. Please try again.",
+    "UNKNOWN_ERROR": "An unexpected error occurred. Please try again.",
+    "OTP_EXPIRED": "This code has expired or was entered wrong too many times. Request a new code.",
+    "INVALID_CREDENTIALS": "Incorrect email or password.",
+    "EMAIL_NOT_VERIFIED": "Your email address is not verified yet.",
+    "UNAUTHENTICATED": "Your session has expired. Please log in again.",
+    "APPLICATION_LOCKED": "This application cannot be changed right now.",
+    "DOCUMENTS_MISSING": "Your application is still missing some items.",
+    "FILE_TOO_LARGE": "File too large: 10 MB maximum.",
+    "FILE_TYPE_NOT_ALLOWED": "Format not accepted: please send a PDF, JPG or PNG.",
+    "NOT_AVAILABLE": "This service is not available yet. Please try again soon."
+  },
+  "privacy": {
+    "title": "Privacy policy",
+    "updated": "Last updated: {{date}}",
+    "intro": "This page explains what information Mboa Delivery collects when you register your restaurant, shop or delivery company on this site, why we use it and how you stay in control of it.",
+    "controller": {
+      "title": "Who is responsible for your data",
+      "text": "Mboa Delivery, an ordering and delivery platform operating in the Republic of Congo, is responsible for the data collected on this site. For any question: {{email}}."
+    },
+    "data": {
+      "title": "The data we collect",
+      "text": "Only what you enter in the signup form, plus a few technical data needed for security:",
+      "items": [
+        "Your business: trading name, type of business, company name, RCCM and NIU if provided.",
+        "Your contact details: phone, email (optional), address and city.",
+        "The GPS location of your business, only if you allow it or enter it.",
+        "The name of the manager or account owner.",
+        "Your password: it is sent encrypted to our server and never stored in plain text by this site.",
+        "Technical data: IP address, kept in pseudonymised form in security logs."
+      ]
+    },
+    "purposes": {
+      "title": "Why we use it",
+      "text": "Your data is only used to:",
+      "items": [
+        "create your Mboa partner account;",
+        "verify your email address with a verification code;",
+        "review your application and contact you about your signup;",
+        "calculate distances and delivery areas for your business;",
+        "protect the site against abuse (attempt limits, bot detection)."
+      ]
+    },
+    "basis": {
+      "title": "Legal basis",
+      "text": "Processing is based on your consent, given by ticking the box in the form, and on the steps needed to set up our partnership at your request."
+    },
+    "recipients": {
+      "title": "Who can access it",
+      "text": "Only the Mboa teams in charge of partners and support can access it, along with our technical providers (hosting, sending verification codes) within the limits of their task. We never sell or rent your data."
+    },
+    "retention": {
+      "title": "How long we keep it",
+      "text": "Signup data is kept while your application is reviewed and then for the whole duration of the partnership. If your application does not go ahead, it is deleted within a reasonable time, unless the law requires us to keep it. Security logs are kept for a short period."
+    },
+    "security": {
+      "title": "How we protect it",
+      "text": "Traffic is encrypted (HTTPS), passwords must be strong, attempts are limited and sensitive information is masked in our logs."
+    },
+    "cookies": {
+      "title": "Cookies",
+      "text": "This site uses a single cookie, “app_language”, which remembers the language you chose. There are no advertising cookies and no analytics tools."
+    },
+    "rights": {
+      "title": "Your rights",
+      "text": "Under Congolese law no. 29-2019 of 10 October 2019 on the protection of personal data, you can ask to access, correct or delete your data, object to its processing, and withdraw your consent at any time. Write to us at {{email}}."
+    },
+    "contact": "A question about your data? Write to us:"
+  },
+  "about": {
+    "eyebrow": "About us",
+    "title": "Mboa Delivery, much more than a delivery service",
+    "intro": "Mboa Delivery is a platform that connects customers, businesses and delivery companies within a single ecosystem. We simplify order management, make deliveries smoother and help delivery companies run their operations better.",
+    "ambition": {
+      "title": "Our ambition",
+      "lead": "Help modernise commerce and logistics in Africa.",
+      "text": "We want to offer an accessible, reliable solution built for local realities, so that ordering, selling and delivering becomes simple for everyone. This ambition starts in the Republic of Congo."
+    },
+    "pillars": {
+      "title": "Our three pillars",
+      "customers": {
+        "title": "Customer experience",
+        "text": "We simplify the ordering journey and delivery tracking."
+      },
+      "merchants": {
+        "title": "Connected commerce",
+        "text": "We help businesses grow their visibility and receive orders."
+      },
+      "delivery": {
+        "title": "Organised delivery",
+        "text": "We make coordination between delivery companies and their riders easier."
+      }
+    },
+    "values": {
+      "title": "How we work",
+      "accessible": {
+        "title": "Accessible",
+        "text": "Sign up in five minutes, clear screens and Mobile Money payment, for customers and partners alike."
+      },
+      "reliable": {
+        "title": "Reliable",
+        "text": "Orders tracked end to end, an advisor supporting every partner and protected data that is never sold."
+      },
+      "local": {
+        "title": "Built for local realities",
+        "text": "Addresses by neighbourhood and landmark, mobile payment and a service opening city by city."
+      }
+    },
+    "cities": {
+      "title": "Present in Congo",
+      "text": "Mboa is launching in the Republic of Congo. Partners can sign up from any of these cities; an advisor will let you know when the service opens in your area.",
+      "label": "Cities open for signup"
+    }
+  },
+  "partner_types": {
+    "MERCHANT": "Restaurant / shop",
+    "DELIVERY_COMPANY": "Delivery company"
+  },
+  "demo": {
+    "title": "Demo mode: simulated data",
+    "code": "No email is sent: use the code {{code}}.",
+    "accounts_intro": "Test accounts, already verified:",
+    "password": "Password: {{password}}",
+    "review_title": "Review simulation (demo)",
+    "review_text": "In reality, the Mboa team decides. Pick an outcome to see the next screen.",
+    "approve": "Approve",
+    "request_changes": "Request a correction",
+    "reject": "Reject"
+  },
+  "auth": {
+    "eyebrow": "Partner space",
+    "fields": {
+      "email": "Email",
+      "password": "Password"
+    },
+    "code": {
+      "title": "Check your email",
+      "text": "Enter the 6-digit code sent to",
+      "spam_hint": "Nothing received? Check your spam folder. The code is valid for 15 minutes.",
+      "label": "Verification code",
+      "submit": "Confirm",
+      "submitting": "Checking…",
+      "resend": "Resend code",
+      "resend_in": "Resend code in {{seconds}} s",
+      "resending": "Sending…",
+      "resent": "A new code has just been sent to you."
+    },
+    "login": {
+      "title": "Log in",
+      "intro": "Track your application and upload your documents.",
+      "submit": "Log in",
+      "submitting": "Logging in…",
+      "forgot": "Forgot your password?",
+      "no_account": "Not a partner yet?",
+      "signup": "Register my business",
+      "unverified": "Your email address is not verified yet: we have just sent you a new code."
+    },
+    "reset": {
+      "title": "Forgot password",
+      "intro": "Get a code by email to choose a new password.",
+      "send": "Send me a code",
+      "sending": "Sending…",
+      "code_sent": "If an account exists, a code has just been sent to",
+      "save": "Save password",
+      "saving": "Saving…",
+      "other_email": "Use another address",
+      "done_title": "Password changed",
+      "done_text": "You can now log in with your new password.",
+      "back_to_login": "Back to login"
+    }
+  },
+  "space": {
+    "eyebrow": "Partner space",
+    "logout": "Log out",
+    "progress": {
+      "label": "Application progress",
+      "account": "Account created",
+      "dossier": "Documents",
+      "review": "Review",
+      "activation": "Activation"
+    },
+    "status": {
+      "DRAFT": {
+        "title": "Complete your application",
+        "text": "Upload each requested document, then submit your application in one go. Our team reviews it within 48 hours, excluding weekends."
+      },
+      "IN_REVIEW": {
+        "title": "Application under review",
+        "submitted": "Submitted on {{date}}.",
+        "due": "Answer by {{date}} at the latest.",
+        "call": "An advisor may call you on {{phone}}. You will be notified by email and WhatsApp."
+      },
+      "CHANGES_REQUESTED": {
+        "title": "A few corrections needed",
+        "text": "Replace the rejected documents below, then submit again. The other documents are accepted."
+      },
+      "APPROVED": {
+        "title": "Welcome to Mboa!",
+        "text_MERCHANT": "Your application is approved. Open the merchant platform to create your menu, set your opening hours and receive your first orders.",
+        "text_DELIVERY_COMPANY": "Your application is approved. Open the fleet panel to add your riders and track their jobs.",
+        "cta_MERCHANT": "Open the merchant platform",
+        "cta_DELIVERY_COMPANY": "Open the fleet panel"
+      },
+      "REJECTED": {
+        "title": "Application rejected",
+        "reason": "Reason:",
+        "contact": "A question about this decision? Write to us:"
+      }
+    },
+    "documents": {
+      "title": "Your documents",
+      "intro": "All required. PDF, JPG or PNG, 10 MB maximum; sharp photo with all four corners visible.",
+      "intro_locked": "Documents cannot be changed at this stage.",
+      "add": "Add",
+      "replace": "Replace",
+      "delete": "Delete",
+      "uploading": "Uploading… {{progress}}%",
+      "file_rules": "PDF, JPG or PNG, 10 MB maximum.",
+      "refused_reason": "Reason for rejection:",
+      "status": {
+        "MISSING": "Required",
+        "UPLOADED": "Uploaded",
+        "IN_REVIEW": "Being checked",
+        "ACCEPTED": "Accepted",
+        "REFUSED": "Rejected"
+      },
+      "types": {
+        "RCCM": {
+          "title": "Trade register (RCCM)",
+          "hint": "Extract of your business's RCCM."
+        },
+        "NIU": {
+          "title": "Tax identification number (NIU)",
+          "hint": "NIU certificate or card."
+        },
+        "ID_CARD": {
+          "title": "Manager's ID",
+          "hint": "Valid national ID card or passport."
+        },
+        "LOCATION_PLAN": {
+          "title": "Location map or storefront photo",
+          "hint": "So riders can easily find your business."
+        },
+        "BUSINESS_LICENSE": {
+          "title": "Operating licence",
+          "hint": "Authorisation to operate issued for your business."
+        },
+        "VEHICLE_INSURANCE": {
+          "title": "Vehicle insurance certificate",
+          "hint": "Certificate covering the fleet's vehicles."
+        }
+      }
+    },
+    "submit": {
+      "title": "Submit your application",
+      "title_again": "Submit again",
+      "missing_intro": "Still missing:",
+      "ready": "Everything is ready. Once submitted, the application cannot be changed during the review (48 hours maximum, excluding weekends).",
+      "button": "Submit my application",
+      "button_again": "Submit again",
+      "submitting": "Submitting…"
+    }
+  }
+}

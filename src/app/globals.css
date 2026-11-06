@@ -1,26 +1,99 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
+/*
+ * Palette Mboa réduite : blanc + gris clair pour les surfaces, encre et gris pour le texte,
+ * UN vert pour l'action (boutons, liens, numéros) et le jaune du logo réservé à la page
+ * de garde et au bandeau final. Une seule famille typographique (Barlow / Barlow Condensed).
+ */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* Surfaces */
+  --color-paper: #ffffff;
+  --color-surface: #f4f4f1;
+  /* Pied de page : se détache des pages sur fond gris clair (espace partenaire, connexion) */
+  --color-surface-deep: #e4e2d9;
+  --color-rule: rgb(19 39 28 / 0.12);
+
+  /* Texte */
+  --color-ink: #13271c;
+  --color-muted: #5b6760;
+
+  /* Action : vert Mboa (brand-deep = état survolé uniquement) */
+  --color-brand: #2d6a4f;
+  --color-brand-deep: #1c3829;
+
+  /* Identité : jaune du logo (page de garde, bandeau final) */
+  --color-accent: #f9c21b;
+  /* Jaune du logo à 40 % sur blanc, opaque : fonds de la page de garde et du bandeau final */
+  --color-accent-soft: #fde7a4;
+
+  --color-danger: #a1261b;
+  --color-danger-soft: #fbece9;
+
+  --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  --font-poster: var(--font-poster), "Arial Narrow", sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-feature-settings: "ss01", "kern";
+}
+
+::selection {
+  background: var(--color-accent);
+  color: var(--color-ink);
+}
+
+/* Titres « affiche » : capitales condensées serrées */
+.font-poster {
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  line-height: 0.9;
+}
+
+/* Lien éditorial : soulignement fin qui s'épaissit au survol */
+.link-underline {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+  transition: text-decoration-thickness 150ms;
+}
+.link-underline:hover {
+  text-decoration-thickness: 2px;
+}
+
+/* Focus clavier visible et identique partout */
+:where(a, button, input, select, textarea, summary):focus-visible {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+/* Lien de navigation : soulignement qui apparaît au survol */
+.link-hover {
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.35em;
+  transition: text-decoration-color 150ms;
+}
+.link-hover:hover,
+.link-hover[aria-current="page"] {
+  text-decoration-color: currentColor;
 }
