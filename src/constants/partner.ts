@@ -14,6 +14,13 @@ export const UPLOAD_POLICY = {
   maxFileNameLength: 120,
 } as const;
 
+/** Logo de l'entreprise (facultatif) : image PNG ou JPG, 2 Mo au plus. */
+export const LOGO_POLICY = {
+  maxBytes: 2 * 1024 * 1024,
+  accept: ".jpg,.jpeg,.png,image/jpeg,image/png",
+  mimeTypes: ["image/jpeg", "image/png"],
+} as const;
+
 /** Délai d'analyse affiché : 48 h sans compter le samedi ni le dimanche (heure du Congo, UTC+1). */
 export const REVIEW_POLICY = { businessHours: 48, utcOffsetHours: 1 } as const;
 

@@ -1,12 +1,14 @@
 "use client";
 
 import { useTranslation } from "react-i18next";
-import { Field, FormSection, Input, PhoneInput } from "#/components/ui/Form";
+import { Field, FormSection, Input } from "#/components/ui/Form";
+import { PhoneInput } from "#/components/ui/PhoneInput";
 import { translateFieldError } from "#/i18n/translateError";
 import { useRegisterDeliveryCompany } from "../hooks/useRegisterDeliveryCompany";
 import { CitySelect } from "./CitySelect";
 import { FormFooter } from "./FormFooter";
 import { PasswordFields } from "./PasswordFields";
+import { PayoutFields } from "./PayoutFields";
 
 export function DeliveryCompanyForm({ onSuccess }: { onSuccess: (email: string) => void }) {
   const { t } = useTranslation();
@@ -32,7 +34,7 @@ export function DeliveryCompanyForm({ onSuccess }: { onSuccess: (email: string) 
         </Field>
         <CitySelect error={err("city")} onChange={on("city")} />
         <Field id="contactPhone" label={t("onboarding.fields.contactPhone")} error={err("contactPhone")}>
-          <PhoneInput id="contactPhone" placeholder={t("onboarding.fields.phone_placeholder")} invalid={!!e.contactPhone} onChange={on("contactPhone")} required />
+          <PhoneInput id="contactPhone" invalid={!!e.contactPhone} onChange={on("contactPhone")} required />
         </Field>
         <Field id="contactEmail" label={t("onboarding.fields.contactEmail")} error={err("contactEmail")} className="sm:col-span-2">
           <Input id="contactEmail" type="email" autoComplete="email" maxLength={254} placeholder="contact@entreprise.cg" invalid={!!e.contactEmail} onChange={on("contactEmail")} required />
@@ -47,14 +49,18 @@ export function DeliveryCompanyForm({ onSuccess }: { onSuccess: (email: string) 
           <Input id="managerLastName" autoComplete="family-name" maxLength={100} invalid={!!e.managerLastName} onChange={on("managerLastName")} required />
         </Field>
         <Field id="managerPhone" label={t("onboarding.fields.managerPhone_fleet")} error={err("managerPhone")} hint={t("onboarding.fields.login_phone_hint")}>
-          <PhoneInput id="managerPhone" placeholder={t("onboarding.fields.phone_placeholder")} invalid={!!e.managerPhone} onChange={on("managerPhone")} required />
+          <PhoneInput id="managerPhone" invalid={!!e.managerPhone} onChange={on("managerPhone")} required />
         </Field>
         <Field id="managerEmail" label={t("onboarding.fields.managerEmail")} error={err("managerEmail")} hint={t("onboarding.fields.login_email_hint")}>
           <Input id="managerEmail" type="email" autoComplete="email" maxLength={254} invalid={!!e.managerEmail} onChange={on("managerEmail")} required />
         </Field>
       </FormSection>
 
-      <FormSection step={3} title={t("onboarding.sections.fleet_security.title")} description={t("onboarding.sections.fleet_security.description")}>
+      <FormSection step={3} title={t("onboarding.sections.payout.title")} description={t("onboarding.sections.payout.description")}>
+        <PayoutFields errors={e} onChange={clearError} />
+      </FormSection>
+
+      <FormSection step={4} title={t("onboarding.sections.fleet_security.title")} description={t("onboarding.sections.fleet_security.description")}>
         <PasswordFields errors={e} onChange={clearError} />
       </FormSection>
 

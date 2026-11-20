@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { UPLOAD_POLICY } from "#/constants/partner";
+import { LOGO_POLICY, UPLOAD_POLICY } from "#/constants/partner";
 import type { Application, DocumentType } from "#/types/partner.types";
 import { deleteDocumentAction } from "../services/space.actions";
 import { useSpaceAction } from "../hooks/useSpaceAction";
@@ -10,10 +10,10 @@ import { useUploadDocument } from "../hooks/useUploadDocument";
 import { findDocument, formatBytes, formatDate, isDocumentEditable } from "../utils/applicationRules";
 import { StatusChip } from "./StatusChip";
 
-type Props = { application: Application; type: DocumentType; loginHref: string };
+type Props = { application: Application; type: DocumentType; loginHref: string; optional?: boolean };
 
 /** Une pièce du dossier : état, fichier déposé, motif de refus, ajout / remplacement / suppression. */
-export function DocumentRow({ application, type, loginHref }: Props) {
+export function DocumentRow({ application, type, loginHref, optional = false }: Props) {
   const { t, i18n } = useTranslation();
   const inputRef = useRef<HTMLInputElement>(null);
   const doc = findDocument(application, type);
@@ -24,7 +24,7 @@ export function DocumentRow({ application, type, loginHref }: Props) {
   const inputId = `file-${type}`;
 
   const chip = !doc ? (
-    <StatusChip tone="neutral">{t("space.documents.status.MISSING")}</StatusChip>
+    <StatusChip tone="neutral">{optional ? t("space.documents.status.OPTIONAL") : t("space.documents.status.MISSING")}</StatusChip>
   ) : doc.status === "ACCEPTED" ? (
     <StatusChip tone="success">{t("space.documents.status.ACCEPTED")}</StatusChip>
   ) : doc.status === "REFUSED" ? (
@@ -60,7 +60,7 @@ export function DocumentRow({ application, type, loginHref }: Props) {
               ref={inputRef}
               id={inputId}
               type="file"
-              accept={UPLOAD_POLICY.accept}
+              accept={type === "LOGO" ? LOGO_POLICY.accept : UPLOAD_POLICY.accept}
               className="sr-only"
               tabIndex={-1}
               onChange={(e) => {

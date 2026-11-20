@@ -1,7 +1,9 @@
 "use client";
 
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Checkbox, Field, FormSection, Input, PhoneInput, Select } from "#/components/ui/Form";
+import { Checkbox, Field, FormSection, Input, Select } from "#/components/ui/Form";
+import { PhoneInput } from "#/components/ui/PhoneInput";
 import { BUSINESS_TYPES } from "#/constants/businessTypes";
 import { translateFieldError } from "#/i18n/translateError";
 import { useRegisterMerchant } from "../hooks/useRegisterMerchant";
@@ -9,9 +11,13 @@ import { CitySelect } from "./CitySelect";
 import { FormFooter } from "./FormFooter";
 import { LocationField } from "./LocationField";
 import { PasswordFields } from "./PasswordFields";
+import { PayoutFields } from "./PayoutFields";
+import type { MapsConfig } from "../types/onboarding.types";
 
-export function MerchantForm({ onSuccess }: { onSuccess: (email: string) => void }) {
+export function MerchantForm({ onSuccess, maps }: { onSuccess: (email: string) => void; maps: MapsConfig | null }) {
   const { t } = useTranslation();
+  // Ville choisie : la carte s'y centre tant qu'aucun repère n'est posé
+  const [city, setCity] = useState("");
   const {
     handleSubmit,
     pending,
@@ -46,11 +52,11 @@ export function MerchantForm({ onSuccess }: { onSuccess: (email: string) => void
         <Field id="phoneNumber" label={t("onboarding.fields.phoneNumber")} error={err("phoneNumber")} hint={t("onboarding.fields.login_phone_hint")}>
           <PhoneInput
             id="phoneNumber"
-            placeholder={t("onboarding.fields.phone_placeholder")}
+           
             invalid={!!e.phoneNumber}
-            value={businessPhone}
-            onChange={(ev) => {
-              setBusinessPhone(ev.target.value);
+            defaultValue={businessPhone}
+            onChange={(v) => {
+              setBusinessPhone(v);
               clearError("phoneNumber");
             }}
             required
@@ -65,9 +71,18 @@ export function MerchantForm({ onSuccess }: { onSuccess: (email: string) => void
         <Field id="addressLine" label={t("onboarding.fields.addressLine")} error={err("addressLine")} className="sm:col-span-2" hint={t("onboarding.fields.addressLine_hint")}>
           <Input id="addressLine" autoComplete="street-address" maxLength={255} placeholder={t("onboarding.fields.addressLine_placeholder")} invalid={!!e.addressLine} onChange={on("addressLine")} required />
         </Field>
-        <CitySelect error={err("city")} onChange={on("city")} />
+        <CitySelect
+          error={err("city")}
+          onChange={(value) => {
+            setCity(value);
+            clearError("city");
+            clearError("latitude");
+          }}
+        />
         <div className="hidden sm:block" />
         <LocationField
+          maps={maps}
+          city={city}
           error={err("latitude") ?? err("longitude")}
           onChange={() => {
             clearError("latitude");
@@ -78,7 +93,7 @@ export function MerchantForm({ onSuccess }: { onSuccess: (email: string) => void
 
       <FormSection step={3} title={t("onboarding.sections.legal.title")} description={t("onboarding.sections.legal.description")}>
         <Field id="legalName" label={t("onboarding.fields.legalName")} optionalLabel={optional} error={err("legalName")} className="sm:col-span-2">
-          <Input id="legalName" maxLength={200} placeholder={t("onboarding.fields.legalName_placeholder")} invalid={!!e.legalName} onChange={on("legalName")} />
+          <Input id="legalName" maxLength={150} placeholder={t("onboarding.fields.legalName_placeholder")} invalid={!!e.legalName} onChange={on("legalName")} />
         </Field>
         <Field id="rccmNumber" label={t("onboarding.fields.rccmNumber")} optionalLabel={optional} error={err("rccmNumber")}>
           <Input id="rccmNumber" maxLength={100} placeholder="CG-BZV-01-2024-B12-00000" invalid={!!e.rccmNumber} onChange={on("rccmNumber")} />
@@ -101,13 +116,17 @@ export function MerchantForm({ onSuccess }: { onSuccess: (email: string) => void
           <input type="hidden" name="managerPhone" value={businessPhone} />
         ) : (
           <Field id="managerPhone" label={t("onboarding.fields.managerPhone")} error={err("managerPhone")} className="sm:col-span-2">
-            <PhoneInput id="managerPhone" placeholder={t("onboarding.fields.phone_placeholder")} invalid={!!e.managerPhone} onChange={on("managerPhone")} required />
+            <PhoneInput id="managerPhone" invalid={!!e.managerPhone} onChange={on("managerPhone")} required />
           </Field>
         )}
         {managerUsesBusinessPhone && e.managerPhone && !e.phoneNumber && (
           <p className="text-[13px] text-danger sm:col-span-2">{err("managerPhone")}</p>
         )}
         <PasswordFields errors={e} onChange={clearError} />
+      </FormSection>
+
+      <FormSection step={5} title={t("onboarding.sections.payout.title")} description={t("onboarding.sections.payout.description")}>
+        <PayoutFields errors={e} onChange={clearError} />
       </FormSection>
 
       <FormFooter pending={pending} errors={e} serverError={serverError} hasClientErrors={hasClientErrors} onChange={clearError} />

@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { UPLOAD_POLICY } from "#/constants/partner";
+import { LOGO_POLICY, UPLOAD_POLICY } from "#/constants/partner";
 import { DOCUMENT_UPLOAD_ENDPOINT } from "#/constants/routes";
 import { getTranslatedErrorMessage } from "#/i18n/translateError";
 import type { ActionResponse } from "#/types/api.types";
@@ -23,8 +23,9 @@ export const useUploadDocument = (type: DocumentType, loginHref: string) => {
   const fail = (code: string) => setState({ status: "error", message: getTranslatedErrorMessage(t, { success: false, error: { code: code as never } }) });
 
   const upload = (file: File) => {
-    if (file.size > UPLOAD_POLICY.maxBytes) return fail("FILE_TOO_LARGE");
-    if (file.type && !(UPLOAD_POLICY.mimeTypes as readonly string[]).includes(file.type)) return fail("FILE_TYPE_NOT_ALLOWED");
+    const policy = type === "LOGO" ? LOGO_POLICY : UPLOAD_POLICY;
+    if (file.size > policy.maxBytes) return fail("FILE_TOO_LARGE");
+    if (file.type && !(policy.mimeTypes as readonly string[]).includes(file.type)) return fail("FILE_TYPE_NOT_ALLOWED");
 
     const body = new FormData();
     body.set("type", type);

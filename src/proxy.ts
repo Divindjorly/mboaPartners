@@ -11,17 +11,32 @@ import { DEFAULT_LOCALE, LANGUAGE_COOKIE, isLocale, type Locale } from "#/i18n/c
 
 const isDev = process.env.NODE_ENV === "development";
 
+/**
+ * Google Maps (seulement si une clé est configurée) : domaines exigés par la Maps JavaScript API et Places.
+ * Ses feuilles de style injectées n'ont pas de nonce : 'unsafe-inline' pour les <style> dans ce cas
+ * (risque limité : les scripts restent sous nonce + strict-dynamic). Même règle que le panel flotte.
+ */
+const withMaps = Boolean(process.env.GOOGLE_MAPS_API_KEY);
+const MAPS = withMaps
+  ? {
+      img: " https://*.googleapis.com https://*.gstatic.com https://*.google.com https://*.googleusercontent.com",
+      connect: " https://*.googleapis.com https://*.google.com https://*.gstatic.com",
+      font: " https://fonts.gstatic.com",
+      style: " https://fonts.googleapis.com",
+    }
+  : { img: "", connect: "", font: "", style: "" };
+
 const buildCsp = (nonce: string): string =>
   [
     "default-src 'self'",
     `script-src 'self' 'nonce-${nonce}' 'strict-dynamic'${isDev ? " 'unsafe-eval'" : ""}`,
-    // Balises <style> : nonce (dev : inline pour le rechargement à chaud)
-    `style-src-elem 'self' ${isDev ? "'unsafe-inline'" : `'nonce-${nonce}'`}`,
+    // Balises <style> : nonce (dev : inline pour le rechargement à chaud ; Google Maps actif : inline)
+    `style-src-elem 'self'${MAPS.style} ${isDev || withMaps ? "'unsafe-inline'" : `'nonce-${nonce}'`}`,
     // Attributs style="" posés par next/image (positionnement) : sans risque d'exécution
     "style-src-attr 'unsafe-inline'",
-    "img-src 'self' data: blob:",
-    "font-src 'self'",
-    `connect-src 'self'${isDev ? " ws: wss:" : ""}`,
+    `img-src 'self' data: blob:${MAPS.img}`,
+    `font-src 'self'${MAPS.font}`,
+    `connect-src 'self'${isDev ? " ws: wss:" : ""}${MAPS.connect}`,
     "object-src 'none'",
     "base-uri 'self'",
     "form-action 'self'",
@@ -43,6 +58,14 @@ const pickLocale = (request: NextRequest): Locale => {
 
 export function proxy(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
+
+  // HTTPS imposé en production : l'hébergeur termine TLS et transmet le protocole d'origine (308 garde la méthode)
+  if (process.env.NODE_ENV === "production" && request.headers.get("x-forwarded-proto") === "http") {
+    const secure = request.nextUrl.clone();
+    secure.protocol = "https:";
+    secure.port = "";
+    return NextResponse.redirect(secure, 308);
+  }
   const firstSegment = pathname.split("/")[1] ?? "";
 
   if (!isLocale(firstSegment)) {

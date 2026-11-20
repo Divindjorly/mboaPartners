@@ -3,11 +3,11 @@ import { SiteHeader } from "#/components/layout/SiteHeader";
 import { routes, sessionExpiredHref } from "#/constants/routes";
 import type { Locale } from "#/i18n/config";
 import { getT } from "#/i18n/server";
-import type { Application, PartnerProfile } from "#/types/partner.types";
+import type { Application, PartnerInbox, PartnerProfile } from "#/types/partner.types";
 import { ApplicationProgress } from "../components/ApplicationProgress";
-import { DemoReviewPanel } from "../components/DemoReviewPanel";
 import { DocumentRow } from "../components/DocumentRow";
 import { LogoutButton } from "../components/LogoutButton";
+import { NotificationsPanel } from "../components/NotificationsPanel";
 import { StatusPanel } from "../components/StatusPanel";
 import { SubmitPanel } from "../components/SubmitPanel";
 import { isApplicationEditable } from "../utils/applicationRules";
@@ -16,12 +16,12 @@ type Props = {
   lang: Locale;
   profile: PartnerProfile;
   application: Application;
+  inbox: PartnerInbox | null;
   platformUrl: string;
-  demo: boolean;
 };
 
-/** Espace partenaire « Mon dossier » : statut, pièces, soumission (les livreurs se gèrent dans le panel flotte). */
-export function SpaceView({ lang, profile, application, platformUrl, demo }: Props) {
+/** Espace partenaire « Mon dossier » : statut, messages de l'équipe Mboa, pièces, soumission (les livreurs se gèrent dans le panel flotte). */
+export function SpaceView({ lang, profile, application, inbox, platformUrl }: Props) {
   const t = getT(lang);
   // Session refusée pendant une action : on passe par l'effacement du cookie
   const loginHref = sessionExpiredHref(lang);
@@ -50,7 +50,8 @@ export function SpaceView({ lang, profile, application, platformUrl, demo }: Pro
 
           <StatusPanel application={application} profile={profile} lang={lang} t={t} platformUrl={platformUrl} />
 
-          {demo && application.status === "IN_REVIEW" && <DemoReviewPanel loginHref={loginHref} />}
+          <NotificationsPanel inbox={inbox} loginHref={loginHref} />
+
 
           <section aria-labelledby="documents-title" className="rounded-3xl bg-paper p-5 sm:p-8">
             <h2 id="documents-title" className="font-poster text-2xl font-extrabold">
@@ -60,6 +61,9 @@ export function SpaceView({ lang, profile, application, platformUrl, demo }: Pro
             <ul className="mt-4 divide-y divide-rule border-t border-rule">
               {application.requiredDocuments.map((type) => (
                 <DocumentRow key={type} application={application} type={type} loginHref={loginHref} />
+              ))}
+              {(application.optionalDocuments ?? []).map((type) => (
+                <DocumentRow key={type} application={application} type={type} loginHref={loginHref} optional />
               ))}
             </ul>
           </section>

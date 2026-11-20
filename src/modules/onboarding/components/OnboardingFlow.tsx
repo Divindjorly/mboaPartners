@@ -3,14 +3,14 @@
 import { useTranslation } from "react-i18next";
 import { EmailCodeStep } from "#/modules/auth/components/EmailCodeStep";
 import { useOnboardingFlow } from "../hooks/useOnboardingFlow";
-import type { PartnerKind } from "../types/onboarding.types";
+import type { MapsConfig, PartnerKind } from "../types/onboarding.types";
 import { DeliveryCompanyForm } from "./DeliveryCompanyForm";
 import { MerchantForm } from "./MerchantForm";
 
 /** 3e étape « Dossier » : elle se déroule dans l'espace partenaire, après la vérification. */
 const STEP_KEYS = ["form", "verify", "dossier"] as const;
 
-export function OnboardingFlow({ kind, demoCode }: { kind: PartnerKind; demoCode: string | null }) {
+export function OnboardingFlow({ kind, maps = null }: { kind: PartnerKind; maps?: MapsConfig | null }) {
   const { step, stepIndex, onSignedUp, onVerified } = useOnboardingFlow();
 
   return (
@@ -18,8 +18,8 @@ export function OnboardingFlow({ kind, demoCode }: { kind: PartnerKind; demoCode
       <Stepper current={stepIndex} />
       <div className="mt-6 sm:mt-10">
         {step.name === "form" &&
-          (kind === "restaurant" ? <MerchantForm onSuccess={onSignedUp} /> : <DeliveryCompanyForm onSuccess={onSignedUp} />)}
-        {step.name === "verify" && <EmailCodeStep email={step.email} onVerified={onVerified} demoCode={demoCode} />}
+          (kind === "restaurant" ? <MerchantForm onSuccess={onSignedUp} maps={maps} /> : <DeliveryCompanyForm onSuccess={onSignedUp} />)}
+        {step.name === "verify" && <EmailCodeStep email={step.email} onVerified={onVerified} />}
       </div>
     </div>
   );

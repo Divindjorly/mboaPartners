@@ -2,7 +2,6 @@
 
 import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { DemoNotice } from "#/components/DemoNotice";
 import { Button } from "#/components/ui/Button";
 import { Alert } from "#/components/ui/Form";
 import { useResendEmailCode } from "../hooks/useResendEmailCode";
@@ -11,12 +10,10 @@ import { useVerifyEmailCode } from "../hooks/useVerifyEmailCode";
 type Props = {
   email: string;
   onVerified: () => void;
-  /** Code affiché en mode démonstration uniquement. */
-  demoCode?: string | null;
 };
 
 /** Saisie du code à 6 chiffres envoyé par e-mail (inscription ou connexion d'un compte non vérifié). */
-export function EmailCodeStep({ email, onVerified, demoCode }: Props) {
+export function EmailCodeStep({ email, onVerified }: Props) {
   const { t } = useTranslation();
   const verify = useVerifyEmailCode(onVerified);
   const resend = useResendEmailCode(email);
@@ -36,13 +33,6 @@ export function EmailCodeStep({ email, onVerified, demoCode }: Props) {
       </p>
       <p className="mt-2 text-sm text-muted">{t("auth.code.spam_hint")}</p>
 
-      {demoCode && (
-        <div className="mt-6">
-          <DemoNotice title={t("demo.title")}>
-            <p>{t("demo.code", { code: demoCode })}</p>
-          </DemoNotice>
-        </div>
-      )}
 
       <form onSubmit={verify.handleSubmit} className="mt-8 space-y-4" noValidate>
         <input type="hidden" name="email" value={email} />

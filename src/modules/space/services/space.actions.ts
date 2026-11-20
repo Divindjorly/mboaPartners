@@ -4,7 +4,7 @@ import type { ActionResponse } from "#/types/api.types";
 import type { Application } from "#/types/partner.types";
 import { formDataToObject } from "#/utils/formData";
 import { runAction } from "#/utils/runAction";
-import { deleteDocumentFlow, simulateReviewFlow, submitApplicationFlow } from "../flows/application.flow";
+import { deleteDocumentFlow, markAllNotificationsReadFlow, markNotificationReadFlow, submitApplicationFlow } from "../flows/application.flow";
 
 /**
  * Actions de l'espace partenaire. L'authentification est vérifiée dans chaque flow
@@ -23,7 +23,13 @@ export async function submitApplicationAction(_prev: State<Application>, formDat
   return runAction(submitApplicationFlow, input, input.locale);
 }
 
-export async function simulateReviewAction(_prev: State<Application>, formData: FormData): Promise<ActionResponse<Application>> {
+
+export async function markNotificationReadAction(_prev: State<{ read: true }>, formData: FormData): Promise<ActionResponse<{ read: true }>> {
   const input = formDataToObject(formData);
-  return runAction(simulateReviewFlow, input, input.locale);
+  return runAction(markNotificationReadFlow, input, input.locale);
+}
+
+export async function markAllNotificationsReadAction(_prev: State<{ read: true }>, formData: FormData): Promise<ActionResponse<{ read: true }>> {
+  const input = formDataToObject(formData);
+  return runAction(markAllNotificationsReadFlow, input, input.locale);
 }

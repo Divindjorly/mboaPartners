@@ -13,7 +13,13 @@ import { destroySession } from "#/utils/session";
 export async function GET(request: NextRequest) {
   const lang = request.nextUrl.searchParams.get("lang");
   const locale = lang && isLocale(lang) ? lang : DEFAULT_LOCALE;
-  await destroySession();
+  // CSRF : une page d'un autre site ne peut pas déconnecter quelqu'un en pointant ici (lien, image).
+  // Le navigateur indique l'origine de la navigation (Sec-Fetch-Site) ; les redirections du panel lui-même passent.
+  if (request.headers.get("sec-fetch-site") === "cross-site") {
+    logger.warn("security.csrf_blocked", { route: "session-expiree" });
+  } else {
+    await destroySession();
+  }
   logger.warn("security.session_invalid", { route: "session-expiree" });
   return NextResponse.redirect(new URL(`${routes.login(locale)}?session=expiree`, request.url), { headers: { "Cache-Control": "no-store" } });
 }

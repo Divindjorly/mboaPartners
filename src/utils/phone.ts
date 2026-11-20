@@ -1,30 +1,65 @@
+import { getCountries, getCountryCallingCode, getExampleNumber, parsePhoneNumberFromString, type CountryCode } from "libphonenumber-js/max";
+import examples from "libphonenumber-js/mobile/examples";
+
 /**
- * Numéros congolais (République du Congo, +242).
- * Format national : 9 chiffres commençant par 0 (ex. 06 123 45 67).
- * L'API Mboa Eat attend l'E.164 en conservant le 0 : "+242061234567"
- * (même convention que mboadeliveryBackend/src/utils/phone.ts).
+ * Téléphones de tous les pays (règles de numérotation de chaque pays, libphonenumber), Congo par défaut.
+ * Format envoyé à l'API : E.164 (« +242061234567 » ; pour le Congo, le 0 fait partie du numéro national).
+ * Mêmes règles que le backend (mboaPlatformBackend/src/utils/phone.ts).
  */
-export const CONGO_DIAL_CODE = "+242";
+export type { CountryCode };
+export const DEFAULT_COUNTRY: CountryCode = "CG";
 
-const NATIONAL_PATTERN = /^0[2456]\d{7}$/;
-export const E164_CONGO_PATTERN = /^\+2420[2456]\d{7}$/;
+const clean = (v: string) => v.trim().replace(/[\s().-]/g, "").replace(/^00/, "+");
 
-/** "+242 06 123 45 67", "00242061234567", "61234567" → "061234567" */
-export const toNationalCongo = (input: string): string => {
-  let digits = input.replace(/\D/g, "");
-  if (digits.startsWith("00242")) digits = digits.slice(5);
-  else if (digits.startsWith("242") && digits.length >= 11) digits = digits.slice(3);
-  if (digits.length === 8 && /^[2456]/.test(digits)) digits = `0${digits}`;
-  return digits;
+/** E.164 si le numéro est valide pour son pays (indicatif tapé, sinon `country`), sinon null. */
+export const toE164 = (input: string, country: CountryCode = DEFAULT_COUNTRY): string | null => {
+  let v = clean(input);
+  if (!v) return null;
+  if (!v.startsWith("+") && country === "CG" && /^[2456]\d{7}$/.test(v)) v = `0${v}`; // 0 oublié
+  const n = parsePhoneNumberFromString(v, v.startsWith("+") ? undefined : country);
+  return n?.isValid() ? n.number : null;
 };
 
-export const isValidCongoPhone = (input: string): boolean => NATIONAL_PATTERN.test(toNationalCongo(input));
+export const isValidPhone = (input: string, country: CountryCode = DEFAULT_COUNTRY) => toE164(input, country) !== null;
 
-export const toE164Congo = (input: string): string => `${CONGO_DIAL_CODE}${toNationalCongo(input)}`;
+/** « +242 06 123 4567 », « +33 6 12 34 56 78 » ; texte d'origine si illisible. */
+export const formatPhone = (input: string | null | undefined): string => {
+  if (!input) return "";
+  return parsePhoneNumberFromString(clean(input), DEFAULT_COUNTRY)?.formatInternational() ?? input;
+};
 
-/** "+242061234567" → "+242 06 123 45 67" */
-export const formatCongoPhone = (input: string): string => {
-  const n = toNationalCongo(input);
-  if (!NATIONAL_PATTERN.test(n)) return input;
-  return `${CONGO_DIAL_CODE} ${n.slice(0, 2)} ${n.slice(2, 5)} ${n.slice(5, 7)} ${n.slice(7)}`;
+/** Pays et numéro national (« 06 123 4567 ») d'un numéro enregistré, pour préremplir un champ. */
+export const splitPhone = (input: string | null | undefined): { country: CountryCode; national: string } => {
+  const n = input ? parsePhoneNumberFromString(clean(input), DEFAULT_COUNTRY) : undefined;
+  return n?.country ? { country: n.country, national: n.formatNational() } : { country: DEFAULT_COUNTRY, national: input ?? "" };
+};
+
+/** Chiffres du numéro national (sans indicatif ni 0 de tête) : pour refuser un mot de passe qui le contient. */
+export const nationalDigits = (input: string): string => {
+  const n = parsePhoneNumberFromString(clean(input), DEFAULT_COUNTRY);
+  return (n ? String(n.nationalNumber) : input.replace(/\D/g, "")).replace(/^0+/, "");
+};
+
+export const dialCodeOf = (country: CountryCode) => `+${getCountryCallingCode(country)}`;
+
+/** Exemple de numéro mobile du pays, au format national (placeholder du champ). */
+export const examplePhone = (country: CountryCode) => getExampleNumber(country, examples)?.formatNational() ?? "";
+
+const flagOf = (country: string) => String.fromCodePoint(...[...country.toUpperCase()].map((c) => 0x1f1a5 + c.charCodeAt(0)));
+
+/** Congo d'abord, puis les pays voisins, puis tous les autres par ordre alphabétique (dans la langue de l'écran). */
+const FIRST: CountryCode[] = ["CG", "CD", "CM", "GA", "CF", "AO", "TD", "GQ"];
+
+export type PhoneCountry = { code: CountryCode; name: string; flag: string; dialCode: string };
+export const phoneCountries = (lang: string): PhoneCountry[] => {
+  let names: Intl.DisplayNames | null = null;
+  try {
+    names = new Intl.DisplayNames([lang], { type: "region" });
+  } catch {
+    names = null;
+  }
+  const all = getCountries().map((code) => ({ code, name: names?.of(code) ?? code, flag: flagOf(code), dialCode: dialCodeOf(code) }));
+  const first = FIRST.flatMap((c) => all.filter((x) => x.code === c));
+  const rest = all.filter((x) => !FIRST.includes(x.code)).sort((a, b) => a.name.localeCompare(b.name, lang));
+  return [...first, ...rest];
 };

@@ -1,6 +1,5 @@
 import type { Locale } from "#/i18n/config";
 import { getT } from "#/i18n/server";
-import { getDemoInfo } from "#/modules/auth/demo";
 import { OnboardingFlow } from "../components/OnboardingFlow";
 import { SignupPageShell } from "../components/SignupPageShell";
 
@@ -17,7 +16,7 @@ export function DeliveryCompanySignupView({ lang }: { lang: Locale }) {
       intro={t("onboarding.fleet.intro")}
       perks={PERKS.map((p) => t(`onboarding.fleet.perks.${p}`))}
     >
-      <OnboardingFlow kind="livraison" demoCode={getDemoInfo()?.code ?? null} />
+      <OnboardingFlow kind="livraison" />
     </SignupPageShell>
   );
 }

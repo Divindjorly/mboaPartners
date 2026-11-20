@@ -72,17 +72,6 @@ export function Select({ invalid = false, className = "", id, children, ...props
   );
 }
 
-/** Champ téléphone avec indicatif +242 fixe. */
-export function PhoneInput({ invalid = false, id, ...props }: ComponentProps<"input"> & ControlExtra) {
-  return (
-    <div className="flex">
-      <span className="inline-flex h-12 items-center rounded-l-xl border border-r-0 border-ink/20 bg-surface px-3 font-semibold text-ink tabular-nums">
-        +242
-      </span>
-      <Input id={id} type="tel" inputMode="tel" autoComplete="tel-national" maxLength={20} invalid={invalid} className="rounded-l-none tabular-nums" {...props} />
-    </div>
-  );
-}
 
 export function Checkbox({ id, invalid = false, children, error, ...props }: ComponentProps<"input"> & ControlExtra & { error?: string }) {
   return (

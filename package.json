@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "i18next": "26.7.1",
+    "libphonenumber-js": "1.13.16",
     "next": "16.4.4",
     "react": "19.3.0",
     "react-dom": "19.3.0",
@@ -33,5 +34,8 @@
   },
   "engines": {
     "node": ">=20.9.0"
+  },
+  "overrides": {
+    "minimatch": "^11.0.8"
   }
 }

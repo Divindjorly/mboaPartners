@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
-import { DemoNotice } from "#/components/DemoNotice";
 import { Button, ButtonLink } from "#/components/ui/Button";
 import { Alert, Field, Input } from "#/components/ui/Form";
 import { routes } from "#/constants/routes";
@@ -12,7 +11,7 @@ import { PasswordFields } from "#/modules/onboarding/components/PasswordFields";
 import { usePasswordReset } from "../hooks/usePasswordReset";
 
 /** Mot de passe oublié en trois temps : adresse e-mail, code + nouveau mot de passe, confirmation. */
-export function ForgotPasswordFlow({ demoCode }: { demoCode: string | null }) {
+export function ForgotPasswordFlow() {
   const { t } = useTranslation();
   const { language } = useAppLanguage();
   const { step, email, request, confirm, restart } = usePasswordReset();
@@ -36,11 +35,6 @@ export function ForgotPasswordFlow({ demoCode }: { demoCode: string | null }) {
         <p className="text-muted">
           {t("auth.reset.code_sent")} <span className="font-semibold break-all text-ink">{email}</span>
         </p>
-        {demoCode && (
-          <DemoNotice title={t("demo.title")}>
-            <p>{t("demo.code", { code: demoCode })}</p>
-          </DemoNotice>
-        )}
         <input type="hidden" name="email" value={email} />
         <Field id="code" label={t("auth.code.label")} error={err("code")}>
           <Input id="code" inputMode="numeric" autoComplete="one-time-code" maxLength={6} invalid={!!confirm.fieldErrors.code} onChange={() => confirm.clearError("code")} required />

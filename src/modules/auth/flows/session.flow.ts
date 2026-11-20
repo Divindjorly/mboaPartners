@@ -7,7 +7,7 @@ import { isApiError } from "#/utils/ApiError";
 import { parseInput } from "#/utils/guards";
 import { hashIp, logger, maskEmail } from "#/utils/logger";
 import { enforceRateLimit } from "#/utils/rateLimiter";
-import { createSession, destroySession } from "#/utils/session";
+import { createSession, destroySession, readSession } from "#/utils/session";
 import { loginSchema } from "../schemas/auth.schemas";
 import type { SignedInResult } from "../types/auth.types";
 
@@ -34,6 +34,9 @@ export const loginFlow = async (input: unknown, ctx: RequestContext): Promise<Si
 };
 
 export const logoutFlow = async (_input: unknown, ctx: RequestContext): Promise<{ signedOut: true }> => {
+  // Session fermée côté serveur (le jeton ne sert plus, même copié) ; en cas d'échec, le cookie est quand même effacé
+  const session = await readSession();
+  if (session) await partnerGateway.logout(ctx, session.ref).catch(() => undefined);
   await destroySession();
   logger.info("auth.logout", { requestId: ctx.requestId, ip: hashIp(ctx.clientIp) });
   return { signedOut: true };

@@ -25,4 +25,6 @@ export type RequestContext = {
   requestId: string;
   clientIp: string;
   locale: string;
+  /** Navigateur du visiteur, transmis au backend pour nommer la session (« Chrome · macOS »). */
+  userAgent?: string;
 };

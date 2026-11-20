@@ -1,34 +1,36 @@
 import "server-only";
 
-import { COUNTRY_NAME } from "#/constants/geography";
 import { StatusCodes } from "#/constants/httpStatus";
-import { ApiError } from "#/utils/ApiError";
+import type { Application, PartnerDocument, PartnerInbox, PartnerProfile } from "#/types/partner.types";
 import { MBOA_ENDPOINTS } from "../endpoints";
-import { mboaPost } from "../mboaClient";
-import type { PartnerGateway } from "./partnerGateway";
+import { mboaDelete, mboaGet, mboaPost, mboaPostTo, mboaUpload } from "../mboaClient";
+import { payoutOf } from "#/modules/onboarding/schemas/onboarding.schemas";
+import type { PartnerGateway, SignedIn } from "./partnerGateway";
 
 /**
- * Implémentation sur l'API Mboa Eat.
- * Les inscriptions existent déjà ; les autres méthodes attendent les endpoints décrits dans
- * docs/specs/parcours-inscription-partenaires.md et répondent NOT_AVAILABLE d'ici là.
+ * Implémentation sur l'API Mboa (mboaPlatformBackend, module partenaires).
+ * Tout est branché : inscription, code e-mail, connexion, mot de passe oublié, profil, dossier, pièces et soumission.
  */
-const notAvailable = (): never => {
-  throw new ApiError("Endpoint not available yet", "NOT_AVAILABLE", StatusCodes.SERVICE_UNAVAILABLE);
-};
+
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
+
+const CONFLICT = { [StatusCodes.CONFLICT]: "ACCOUNT_CONFLICT" } as const;
+
+const toSignedIn = ({ ref, partnerType }: SignedIn): SignedIn => ({ ref, partnerType });
 
 export const livePartnerGateway: PartnerGateway = {
   source: "api",
 
   async signupMerchant(ctx, data) {
-    await mboaPost(
+    return mboaPost<{ email: string }>(
       MBOA_ENDPOINTS.signupMerchant,
       {
-        phoneNumber: data.phoneNumber,
         businessName: data.businessName,
         legalName: data.legalName,
         businessType: data.businessType,
         rccmNumber: data.rccmNumber,
         taxId: data.taxId,
+        phoneNumber: data.phoneNumber,
         email: data.email,
         addressLine: data.addressLine,
         city: data.city,
@@ -36,16 +38,16 @@ export const livePartnerGateway: PartnerGateway = {
         longitude: data.longitude,
         managerFullName: data.managerFullName,
         managerPhone: data.managerPhone,
+        payout: payoutOf(data),
         password: data.password,
       },
       ctx,
-      { [StatusCodes.CONFLICT]: "ACCOUNT_CONFLICT" },
+      CONFLICT,
     );
-    return { email: data.email };
   },
 
   async signupDeliveryCompany(ctx, data) {
-    await mboaPost(
+    return mboaPost<{ email: string }>(
       MBOA_ENDPOINTS.signupDeliveryCompany,
       {
         companyName: data.companyName,
@@ -55,30 +57,61 @@ export const livePartnerGateway: PartnerGateway = {
         contactEmail: data.contactEmail,
         addressLine: data.addressLine,
         city: data.city,
-        country: COUNTRY_NAME,
         managerFirstName: data.managerFirstName,
         managerLastName: data.managerLastName,
         managerPhone: data.managerPhone,
         managerEmail: data.managerEmail,
+        payout: payoutOf(data),
         password: data.password,
       },
       ctx,
-      { [StatusCodes.CONFLICT]: "ACCOUNT_CONFLICT" },
+      CONFLICT,
     );
-    return { email: data.managerEmail };
   },
 
-  // À brancher sur la spec (section 3) : /v1/auth/email/verification/*, login par e-mail, reset par e-mail
-  requestEmailCode: async () => notAvailable(),
-  verifyEmailCode: async () => notAvailable(),
-  login: async () => notAvailable(),
-  requestPasswordReset: async () => notAvailable(),
-  confirmPasswordReset: async () => notAvailable(),
+  async requestEmailCode(ctx, email) {
+    await mboaPost(MBOA_ENDPOINTS.emailCodeRequest, { email }, ctx);
+  },
 
-  // À brancher sur la spec (sections 4 à 6) : /v1/users/me/merchant/* et /v1/fleet/*
-  getProfile: async () => notAvailable(),
-  getApplication: async () => notAvailable(),
-  uploadDocument: async () => notAvailable(),
-  deleteDocument: async () => notAvailable(),
-  submitApplication: async () => notAvailable(),
+  async verifyEmailCode(ctx, email, code) {
+    return toSignedIn(await mboaPost<SignedIn>(MBOA_ENDPOINTS.emailCodeConfirm, { email, code }, ctx));
+  },
+
+  async logout(ctx, token) {
+    await mboaPost(MBOA_ENDPOINTS.logout, {}, ctx, {}, token);
+  },
+  async login(ctx, email, password) {
+    return toSignedIn(await mboaPost<SignedIn>(MBOA_ENDPOINTS.login, { email, password }, ctx));
+  },
+
+  getProfile: (ctx, session) => mboaGet<PartnerProfile>(MBOA_ENDPOINTS.me, ctx, session.ref),
+  getApplication: (ctx, session) => mboaGet<Application>(MBOA_ENDPOINTS.application, ctx, session.ref),
+
+  // Mot de passe oublié : code par e-mail (réponse identique pour une adresse inconnue), puis nouveau mot de passe
+  async requestPasswordReset(ctx, email) {
+    await mboaPost(MBOA_ENDPOINTS.passwordResetRequest, { email }, ctx);
+  },
+  async confirmPasswordReset(ctx, email, code, password) {
+    await mboaPost(MBOA_ENDPOINTS.passwordResetConfirm, { email, code, password }, ctx);
+  },
+
+  uploadDocument: (ctx, session, type, file) =>
+    mboaUpload<PartnerDocument>(MBOA_ENDPOINTS.documents, `?type=${type}`, file, ctx, session.ref),
+
+  async deleteDocument(ctx, session, documentId) {
+    if (!UUID.test(documentId)) return; // identifiant inconnu : rien à retirer
+    await mboaDelete(MBOA_ENDPOINTS.documents, `/${documentId}`, ctx, session.ref);
+  },
+
+  submitApplication: (ctx, session) => mboaPost<Application>(MBOA_ENDPOINTS.submitApplication, {}, ctx, {}, session.ref),
+
+  listNotifications: (ctx, session, page) =>
+    mboaGet<PartnerInbox>(MBOA_ENDPOINTS.notifications, ctx, session.ref, page > 1 ? `?page=${Math.min(999, Math.trunc(page))}` : undefined),
+  async markNotificationRead(ctx, session, id) {
+    if (!UUID.test(id)) return; // identifiant inconnu : rien à marquer
+    await mboaPostTo(MBOA_ENDPOINTS.notifications, `/${id}/read`, ctx, session.ref);
+  },
+  async markAllNotificationsRead(ctx, session) {
+    await mboaPostTo(MBOA_ENDPOINTS.notificationsReadAll, undefined, ctx, session.ref);
+  },
 };

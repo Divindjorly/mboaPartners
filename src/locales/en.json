@@ -226,6 +226,10 @@
       "owner": {
         "title": "Manager and account",
         "description": "The person responsible for the business on Mboa."
+      },
+      "payout": {
+        "title": "Payout account",
+        "description": "Where Mboa pays your earnings: Mobile Money or bank account. You can change it later."
       }
     },
     "fields": {
@@ -271,7 +275,20 @@
       "show_short": "Show",
       "hide_short": "Hide",
       "consent_privacy": "Read the privacy policy",
-      "login_email_hint": "Used to log in; you will receive a verification code there."
+      "login_email_hint": "Used to log in; you will receive a verification code there.",
+      "payoutMethod": "Payout method",
+      "payout_mobile_money": "Mobile Money",
+      "payout_mobile_money_text": "MTN Mobile Money or Airtel Money.",
+      "payout_bank": "Bank transfer",
+      "payout_bank_text": "To your business bank account.",
+      "payoutOperator": "Operator",
+      "choose": "Choose…",
+      "payoutPhone": "Mobile Money number",
+      "bankName": "Bank",
+      "rib": "RIB (bank details)",
+      "rib_hint": "23 digits and letters, shown on your RIB or bank statement. No document required.",
+      "payoutHolder": "Account holder",
+      "payoutHolder_hint": "Name on the account: your business or its manager."
     },
     "business_types": {
       "restaurant": "Restaurant",
@@ -281,16 +298,23 @@
       "caterer": "Caterer"
     },
     "location": {
-      "label": "Business GPS location",
-      "use_current": "Use my current location",
+      "label": "Business location",
+      "search_label": "Search for the business address or name",
+      "search_placeholder": "Search an address, area or place…",
+      "search_empty": "No results. Tap the map where the business is.",
+      "search_error": "Search is unavailable right now. Tap the map or enter the coordinates.",
+      "map_label": "Map: tap where the business is",
+      "map_hint": "Search the address or tap the map at the exact entrance. The location is used to compute delivery distances.",
+      "map_adjust": "Drag the pin or tap elsewhere to adjust it. Switch to satellite view to spot the building.",
+      "marker_title": "Your business",
+      "map_unavailable": "The map could not be loaded. Enter the business coordinates.",
+      "manual_only": "Enter the business coordinates. They are used to compute delivery distances.",
       "saved": "Location saved",
       "manual_show": "Enter coordinates",
-      "manual_hide": "Hide manual entry",
-      "hint": "Do this from your business: the location is used to compute delivery distances.",
-      "denied": "Location unavailable. Allow location access or enter the coordinates (Google Maps → long-press on your business).",
+      "manual_hide": "Hide coordinates entry",
+      "manual_hint": "In Google Maps, long-press on the business: the coordinates appear at the top (latitude, longitude).",
       "latitude": "Latitude",
-      "longitude": "Longitude",
-      "check_map": "Check on the map ({{lat}}, {{lng}})"
+      "longitude": "Longitude"
     },
     "form": {
       "submit": "Send my application",
@@ -316,10 +340,10 @@
     "too_long": "This field is too long.",
     "invalid_characters": "This field contains characters that aren't allowed.",
     "email": "Invalid email address.",
-    "phone": "Invalid Congolese number (e.g. 06 123 45 67).",
+    "phone": "Invalid number for this country: check the dialling code and format (e.g. 06 123 45 67 in Congo).",
     "city": "Choose a city.",
     "business_type": "Choose a business type.",
-    "coordinates_required": "GPS location required: use the button or enter the coordinates.",
+    "coordinates_required": "Location required: place the business on the map or enter its coordinates.",
     "out_of_congo": "This location is outside Congo.",
     "password_min": "At least 12 characters.",
     "password_max": "128 characters maximum.",
@@ -327,7 +351,9 @@
     "password_contains_phone": "The password must not contain your phone number.",
     "password_mismatch": "Passwords don't match.",
     "consent": "You must agree to continue.",
-    "otp_format": "Enter the 6-digit code you received."
+    "otp_format": "Enter the 6-digit code you received.",
+    "far_from_city": "This location is too far from the selected city. Check the city or move the pin to the business.",
+    "rib": "Invalid RIB: 23 characters (bank, branch, account, key)."
   },
   "api_errors": {
     "VALIDATION_ERROR": "Some fields need fixing.",
@@ -350,7 +376,9 @@
     "DOCUMENTS_MISSING": "Your application is still missing some items.",
     "FILE_TOO_LARGE": "File too large: 10 MB maximum.",
     "FILE_TYPE_NOT_ALLOWED": "Format not accepted: please send a PDF, JPG or PNG.",
-    "NOT_AVAILABLE": "This service is not available yet. Please try again soon."
+    "NOT_AVAILABLE": "This service is not available yet. Please try again soon.",
+    "ACCOUNT_NOT_FOUND": "No account is registered with this email address.",
+    "ACCOUNT_NOT_APPROVED": "Your account is not active."
   },
   "privacy": {
     "title": "Privacy policy",
@@ -458,17 +486,6 @@
     "MERCHANT": "Restaurant / shop",
     "DELIVERY_COMPANY": "Delivery company"
   },
-  "demo": {
-    "title": "Demo mode: simulated data",
-    "code": "No email is sent: use the code {{code}}.",
-    "accounts_intro": "Test accounts, already verified:",
-    "password": "Password: {{password}}",
-    "review_title": "Review simulation (demo)",
-    "review_text": "In reality, the Mboa team decides. Pick an outcome to see the next screen.",
-    "approve": "Approve",
-    "request_changes": "Request a correction",
-    "reject": "Reject"
-  },
   "auth": {
     "eyebrow": "Partner space",
     "fields": {
@@ -495,7 +512,8 @@
       "forgot": "Forgot your password?",
       "no_account": "Not a partner yet?",
       "signup": "Register my business",
-      "unverified": "Your email address is not verified yet: we have just sent you a new code."
+      "unverified": "Your email address is not verified yet: we have just sent you a new code.",
+      "not_found_cta": "Register my business →"
     },
     "reset": {
       "title": "Forgot password",
@@ -564,7 +582,8 @@
         "UPLOADED": "Uploaded",
         "IN_REVIEW": "Being checked",
         "ACCEPTED": "Accepted",
-        "REFUSED": "Rejected"
+        "REFUSED": "Rejected",
+        "OPTIONAL": "Optional"
       },
       "types": {
         "RCCM": {
@@ -590,6 +609,10 @@
         "VEHICLE_INSURANCE": {
           "title": "Vehicle insurance certificate",
           "hint": "Certificate covering the fleet's vehicles."
+        },
+        "LOGO": {
+          "title": "Company logo (optional)",
+          "hint": "PNG or JPG image, 2 MB max. It will appear in your space and your Mboa documents."
         }
       }
     },
@@ -601,6 +624,32 @@
       "button": "Submit my application",
       "button_again": "Submit again",
       "submitting": "Submitting…"
+    },
+    "notifications": {
+      "title": "Messages from the Mboa team",
+      "unread": "unread",
+      "unread_count_one": "{{count}} unread message",
+      "unread_count_other": "{{count}} unread messages",
+      "mark_read": "Mark as read",
+      "mark_all_read": "Mark all as read",
+      "empty": "No messages yet. You will be notified here at each step of your application's review.",
+      "unavailable": "Messages cannot be shown right now. Reload the page in a moment.",
+      "older_one": "{{count}} older message is not shown.",
+      "older_other": "{{count}} older messages are not shown."
     }
+  },
+  "phone": {
+    "country": "Dialling code country"
+  },
+  "login_errors": {
+    "not_found": "No partner account is registered with this address.",
+    "wrong_password": "Incorrect password. Check it, or use “Forgot password?”.",
+    "too_many_one": "Too many sign-in attempts. For your security, try again in {{count}} minute.",
+    "too_many_other": "Too many sign-in attempts. For your security, try again in {{count}} minutes.",
+    "too_many_later": "Too many sign-in attempts. For your security, try again in a few minutes.",
+    "offline": "Can't reach Mboa. Check your internet connection, then try again.",
+    "unavailable": "Sign-in is temporarily unavailable. Try again in a few minutes.",
+    "generic": "Sign-in didn't go through. Try again in a moment.",
+    "not_active": "This account is disabled. Contact Mboa support to reactivate it."
   }
 }

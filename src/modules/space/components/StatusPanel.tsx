@@ -2,7 +2,7 @@ import type { TFunction } from "i18next";
 import { ButtonLink } from "#/components/ui/Button";
 import { LEGAL } from "#/constants/legal";
 import type { Application, PartnerProfile } from "#/types/partner.types";
-import { formatCongoPhone } from "#/utils/phone";
+import { formatPhone } from "#/utils/phone";
 import { formatDateTime } from "../utils/applicationRules";
 
 type Props = { application: Application; profile: PartnerProfile; lang: string; t: TFunction; platformUrl: string };
@@ -23,7 +23,7 @@ export function StatusPanel({ application, profile, lang, t, platformUrl }: Prop
         <div className="mt-3 space-y-2 text-muted">
           <p>{t("space.status.IN_REVIEW.submitted", { date: formatDateTime(application.submittedAt, lang) })}</p>
           <p className="text-lg font-semibold text-ink">{t("space.status.IN_REVIEW.due", { date: formatDateTime(application.reviewDueAt, lang) })}</p>
-          <p>{t("space.status.IN_REVIEW.call", { phone: formatCongoPhone(profile.phoneNumber) })}</p>
+          <p>{t("space.status.IN_REVIEW.call", { phone: formatPhone(profile.phoneNumber) })}</p>
         </div>
       )}
 

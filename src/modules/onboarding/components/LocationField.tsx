@@ -1,32 +1,52 @@
 "use client";
 
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Button } from "#/components/ui/Button";
-import { useGeolocation } from "../hooks/useGeolocation";
+import { CITY_CENTERS, CONGO_CITIES, type CongoCity } from "#/constants/geography";
+import { useLocationPicker } from "../hooks/useLocationPicker";
+import type { MapsConfig } from "../types/onboarding.types";
+import { LocationMap } from "./LocationMap";
 
-type Props = { error?: string; onChange: () => void };
+type Props = { maps: MapsConfig | null; city: string; error?: string; onChange: () => void };
 
-/** Position GPS de l'établissement (obligatoire pour l'API : distances et rayon de livraison). */
-export function LocationField({ error, onChange }: Props) {
+const isCity = (v: string): v is CongoCity => (CONGO_CITIES as readonly string[]).includes(v);
+
+/**
+ * Position GPS de l'établissement (obligatoire pour l'API : distances et rayon de livraison), au choix :
+ * recherche d'adresse sur la carte, repère posé ou glissé sur la carte, ou coordonnées saisies à la main.
+ * Sans clé Google Maps (ou carte refusée), seule la saisie reste proposée.
+ */
+export function LocationField({ maps, city, error, onChange }: Props) {
   const { t } = useTranslation();
-  const { coords, status, manual, toggleManual, locate, setManualValue, mapUrl } = useGeolocation(onChange);
+  const [mapFailed, setMapFailed] = useState(false);
+  const withMap = maps !== null && !mapFailed;
+  const { coords, point, follow, manual, toggleManual, setPoint, setManualValue } = useLocationPicker(onChange, maps === null);
+  const showManual = manual || !withMap;
+
+  // Objet stable par ville (évite de recentrer la carte à chaque rendu)
+  const area = useMemo(() => {
+    const c = CITY_CENTERS[isCity(city) ? city : "Brazzaville"];
+    return { center: { lat: c.latitude, lng: c.longitude }, radiusM: c.radiusKm * 1000 };
+  }, [city]);
 
   return (
     <div className="sm:col-span-2">
       <p className="mb-2 text-sm font-semibold">{t("onboarding.location.label")}</p>
-      <div className={`rounded-2xl border bg-surface p-5 ${error ? "border-danger" : "border-transparent"}`}>
-        <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
-          <Button type="button" variant="outline" onClick={locate} disabled={status === "locating"}>
-            {status === "located" ? `✓ ${t("onboarding.location.saved")}` : t("onboarding.location.use_current")}
-          </Button>
-          <button type="button" className="link-underline text-sm text-muted" onClick={toggleManual}>
+      <div className={`rounded-2xl border bg-surface p-4 sm:p-5 ${error ? "border-danger" : "border-transparent"}`}>
+        {withMap ? (
+          <LocationMap maps={maps} center={area.center} radiusM={area.radiusM} point={point} follow={follow} onPick={setPoint} onUnavailable={() => setMapFailed(true)} />
+        ) : (
+          <p className="text-[13px] text-muted">{maps && mapFailed ? t("onboarding.location.map_unavailable") : t("onboarding.location.manual_only")}</p>
+        )}
+
+        {withMap && (
+          <button type="button" className="link-underline mt-4 text-sm text-muted" aria-expanded={manual} onClick={toggleManual}>
             {manual ? t("onboarding.location.manual_hide") : t("onboarding.location.manual_show")}
           </button>
-        </div>
+        )}
 
-        <p className="mt-4 text-[13px] text-muted">{status === "denied" ? t("onboarding.location.denied") : t("onboarding.location.hint")}</p>
-
-        <div className={manual ? "mt-5 grid gap-4 sm:grid-cols-2" : "hidden"}>
+        {/* Toujours dans le formulaire (masquées quand la carte suffit) : ce sont elles qui sont envoyées */}
+        <div className={showManual ? "mt-4 grid gap-4 sm:grid-cols-2" : "hidden"}>
           {(["latitude", "longitude"] as const).map((key) => (
             <label key={key} className="text-[13px] text-muted">
               {t(`onboarding.location.${key}`)}
@@ -41,12 +61,13 @@ export function LocationField({ error, onChange }: Props) {
               />
             </label>
           ))}
+          <p className="text-[13px] text-muted sm:col-span-2">{t("onboarding.location.manual_hint")}</p>
         </div>
 
-        {mapUrl && (
-          <a href={mapUrl} target="_blank" rel="noopener noreferrer" className="link-underline mt-4 inline-block text-[13px] text-ink">
-            {t("onboarding.location.check_map", { lat: coords.latitude, lng: coords.longitude })} ↗
-          </a>
+        {withMap && point && !showManual && (
+          <p className="mt-3 text-[13px] text-ink tabular-nums">
+            ✓ {t("onboarding.location.saved")} · {coords.latitude}, {coords.longitude}
+          </p>
         )}
       </div>
       {error && <p className="mt-2 text-[13px] font-medium text-danger">{error}</p>}

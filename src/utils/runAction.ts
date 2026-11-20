@@ -15,6 +15,7 @@ const buildContext = async (locale: unknown): Promise<RequestContext> => {
   return {
     requestId: randomUUID(),
     clientIp: resolveClientIp(h),
+    userAgent: h.get("user-agent")?.slice(0, 400) ?? undefined,
     locale: typeof locale === "string" && isLocale(locale) ? locale : DEFAULT_LOCALE,
   };
 };

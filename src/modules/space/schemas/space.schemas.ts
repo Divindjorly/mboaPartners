@@ -9,9 +9,7 @@ export const documentTypeSchema = z.enum(DOCUMENT_TYPES, { error: "validation.re
 
 export const deleteDocumentSchema = z.object({ documentId: z.uuid("validation.required"), locale: localeField });
 
-export const simulateReviewSchema = z.object({
-  decision: z.enum(["approve", "request_changes", "reject"]),
-  locale: localeField,
-});
 
 export const emptySchema = z.object({ locale: localeField });
+
+export const notificationIdSchema = z.object({ id: z.uuid("validation.required"), locale: localeField });

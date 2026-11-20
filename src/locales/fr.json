@@ -226,6 +226,10 @@
       "owner": {
         "title": "Gérant et compte",
         "description": "La personne responsable de l'établissement sur Mboa."
+      },
+      "payout": {
+        "title": "Compte de versement",
+        "description": "Où Mboa vous verse vos gains : Mobile Money ou compte bancaire. Vous pourrez le modifier plus tard."
       }
     },
     "fields": {
@@ -271,7 +275,20 @@
       "show_short": "Afficher",
       "hide_short": "Masquer",
       "consent_privacy": "Lire la politique de confidentialité",
-      "login_email_hint": "Sert à vous connecter ; vous y recevrez un code de vérification."
+      "login_email_hint": "Sert à vous connecter ; vous y recevrez un code de vérification.",
+      "payoutMethod": "Mode de versement",
+      "payout_mobile_money": "Mobile Money",
+      "payout_mobile_money_text": "MTN Mobile Money ou Airtel Money.",
+      "payout_bank": "Virement bancaire",
+      "payout_bank_text": "Sur le compte bancaire de votre activité.",
+      "payoutOperator": "Opérateur",
+      "choose": "Choisir…",
+      "payoutPhone": "Numéro Mobile Money",
+      "bankName": "Banque",
+      "rib": "RIB",
+      "rib_hint": "23 chiffres et lettres, inscrits sur votre RIB ou votre relevé de compte. Aucun document à fournir.",
+      "payoutHolder": "Titulaire du compte",
+      "payoutHolder_hint": "Nom inscrit sur le compte : votre entreprise ou son responsable."
     },
     "business_types": {
       "restaurant": "Restaurant",
@@ -281,16 +298,23 @@
       "caterer": "Traiteur"
     },
     "location": {
-      "label": "Position GPS de l'établissement",
-      "use_current": "Utiliser ma position actuelle",
+      "label": "Position de l'établissement",
+      "search_label": "Rechercher l'adresse ou le nom de l'établissement",
+      "search_placeholder": "Rechercher une adresse, un quartier, un lieu…",
+      "search_empty": "Aucun résultat. Touchez la carte à l'emplacement de l'établissement.",
+      "search_error": "Recherche indisponible pour le moment. Touchez la carte ou saisissez les coordonnées.",
+      "map_label": "Carte : touchez l'emplacement de l'établissement",
+      "map_hint": "Recherchez l'adresse ou touchez la carte à l'emplacement exact de l'entrée. La position sert à calculer les distances de livraison.",
+      "map_adjust": "Glissez le repère ou touchez ailleurs pour l'ajuster. Passez en vue satellite pour repérer le bâtiment.",
+      "marker_title": "Votre établissement",
+      "map_unavailable": "La carte n'a pas pu être chargée. Saisissez les coordonnées de l'établissement.",
+      "manual_only": "Saisissez les coordonnées de l'établissement. Elles servent à calculer les distances de livraison.",
       "saved": "Position enregistrée",
       "manual_show": "Saisir les coordonnées",
-      "manual_hide": "Masquer la saisie manuelle",
-      "hint": "Faites-le depuis votre établissement : la position sert à calculer les distances de livraison.",
-      "denied": "Position indisponible. Autorisez la localisation ou saisissez les coordonnées (Google Maps → appui long sur votre établissement).",
+      "manual_hide": "Masquer la saisie des coordonnées",
+      "manual_hint": "Dans Google Maps, faites un appui long sur l'établissement : les coordonnées s'affichent en haut (latitude, longitude).",
       "latitude": "Latitude",
-      "longitude": "Longitude",
-      "check_map": "Vérifier sur la carte ({{lat}}, {{lng}})"
+      "longitude": "Longitude"
     },
     "form": {
       "submit": "Envoyer ma demande",
@@ -316,10 +340,10 @@
     "too_long": "Ce champ est trop long.",
     "invalid_characters": "Ce champ contient des caractères non autorisés.",
     "email": "Adresse e-mail invalide.",
-    "phone": "Numéro congolais invalide (ex. 06 123 45 67).",
+    "phone": "Numéro invalide pour ce pays : vérifiez l'indicatif et le format (ex. 06 123 45 67 au Congo).",
     "city": "Choisissez une ville.",
     "business_type": "Choisissez un type d'établissement.",
-    "coordinates_required": "Position GPS requise : utilisez le bouton ou saisissez les coordonnées.",
+    "coordinates_required": "Position requise : placez l'établissement sur la carte ou saisissez ses coordonnées.",
     "out_of_congo": "Cette position est hors du Congo.",
     "password_min": "Au moins 12 caractères.",
     "password_max": "128 caractères maximum.",
@@ -327,7 +351,9 @@
     "password_contains_phone": "Le mot de passe ne doit pas contenir votre numéro de téléphone.",
     "password_mismatch": "Les mots de passe ne correspondent pas.",
     "consent": "Vous devez accepter pour continuer.",
-    "otp_format": "Saisissez les 6 chiffres du code reçu."
+    "otp_format": "Saisissez les 6 chiffres du code reçu.",
+    "far_from_city": "Cette position est trop loin de la ville choisie. Vérifiez la ville ou replacez le repère sur l'établissement.",
+    "rib": "RIB invalide : 23 caractères (banque, guichet, compte, clé)."
   },
   "api_errors": {
     "VALIDATION_ERROR": "Certains champs sont à corriger.",
@@ -350,7 +376,9 @@
     "DOCUMENTS_MISSING": "Il manque encore des éléments à votre dossier.",
     "FILE_TOO_LARGE": "Fichier trop lourd : 10 Mo maximum.",
     "FILE_TYPE_NOT_ALLOWED": "Format non accepté : envoyez un PDF, un JPG ou un PNG.",
-    "NOT_AVAILABLE": "Ce service n'est pas encore disponible. Réessayez bientôt."
+    "NOT_AVAILABLE": "Ce service n'est pas encore disponible. Réessayez bientôt.",
+    "ACCOUNT_NOT_FOUND": "Aucun compte n'est enregistré avec cette adresse e-mail.",
+    "ACCOUNT_NOT_APPROVED": "Votre compte n'est pas actif."
   },
   "privacy": {
     "title": "Politique de confidentialité",
@@ -458,17 +486,6 @@
     "MERCHANT": "Restaurant / commerce",
     "DELIVERY_COMPANY": "Entreprise de livraison"
   },
-  "demo": {
-    "title": "Mode démonstration : données simulées",
-    "code": "Aucun e-mail n'est envoyé : utilisez le code {{code}}.",
-    "accounts_intro": "Comptes de test déjà vérifiés :",
-    "password": "Mot de passe : {{password}}",
-    "review_title": "Simulation de l'analyse (démo)",
-    "review_text": "En vrai, c'est l'équipe Mboa qui décide. Choisissez une issue pour voir l'écran suivant.",
-    "approve": "Approuver",
-    "request_changes": "Demander une correction",
-    "reject": "Refuser"
-  },
   "auth": {
     "eyebrow": "Espace partenaire",
     "fields": {
@@ -495,7 +512,8 @@
       "forgot": "Mot de passe oublié ?",
       "no_account": "Pas encore partenaire ?",
       "signup": "Inscrire mon activité",
-      "unverified": "Votre adresse e-mail n'est pas encore vérifiée : nous venons de vous envoyer un nouveau code."
+      "unverified": "Votre adresse e-mail n'est pas encore vérifiée : nous venons de vous envoyer un nouveau code.",
+      "not_found_cta": "Inscrire mon activité →"
     },
     "reset": {
       "title": "Mot de passe oublié",
@@ -564,7 +582,8 @@
         "UPLOADED": "Déposé",
         "IN_REVIEW": "En vérification",
         "ACCEPTED": "Accepté",
-        "REFUSED": "Refusé"
+        "REFUSED": "Refusé",
+        "OPTIONAL": "Facultatif"
       },
       "types": {
         "RCCM": {
@@ -590,6 +609,10 @@
         "VEHICLE_INSURANCE": {
           "title": "Attestation d'assurance des véhicules",
           "hint": "Attestation couvrant les véhicules de la flotte."
+        },
+        "LOGO": {
+          "title": "Logo de l'entreprise (facultatif)",
+          "hint": "Image PNG ou JPG, 2 Mo au plus. Il s'affichera dans votre espace et vos documents Mboa."
         }
       }
     },
@@ -601,6 +624,32 @@
       "button": "Soumettre mon dossier",
       "button_again": "Soumettre à nouveau",
       "submitting": "Envoi…"
+    },
+    "notifications": {
+      "title": "Messages de l'équipe Mboa",
+      "unread": "non lu",
+      "unread_count_one": "{{count}} message non lu",
+      "unread_count_other": "{{count}} messages non lus",
+      "mark_read": "Marquer comme lu",
+      "mark_all_read": "Tout marquer comme lu",
+      "empty": "Aucun message pour l'instant. Vous serez prévenu ici à chaque étape de l'examen de votre dossier.",
+      "unavailable": "Les messages ne peuvent pas être affichés pour le moment. Rechargez la page dans quelques instants.",
+      "older_one": "{{count}} message plus ancien n'est pas affiché.",
+      "older_other": "{{count}} messages plus anciens ne sont pas affichés."
     }
+  },
+  "phone": {
+    "country": "Pays de l'indicatif"
+  },
+  "login_errors": {
+    "not_found": "Aucun compte partenaire n'est inscrit avec cette adresse.",
+    "wrong_password": "Mot de passe incorrect. Vérifiez-le, ou utilisez « Mot de passe oublié ? ».",
+    "too_many_one": "Trop d'essais de connexion. Par sécurité, réessayez dans {{count}} minute.",
+    "too_many_other": "Trop d'essais de connexion. Par sécurité, réessayez dans {{count}} minutes.",
+    "too_many_later": "Trop d'essais de connexion. Par sécurité, réessayez dans quelques minutes.",
+    "offline": "Impossible de joindre Mboa. Vérifiez votre connexion internet, puis réessayez.",
+    "unavailable": "La connexion est momentanément indisponible. Réessayez dans quelques minutes.",
+    "generic": "La connexion n'a pas abouti. Réessayez dans un instant.",
+    "not_active": "Ce compte est désactivé. Contactez le support Mboa pour le réactiver."
   }
 }

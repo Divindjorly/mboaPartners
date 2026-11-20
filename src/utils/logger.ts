@@ -29,6 +29,7 @@ export type SecurityEvent =
   | "application.document_deleted"
   | "application.submitted"
   | "application.review_simulated"
+  | "notifications.load_failed"
   | "security.csrf_blocked"
   | "security.session_invalid"
   | "security.rate_limited"

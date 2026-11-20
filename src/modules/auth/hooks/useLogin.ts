@@ -14,11 +14,20 @@ export const useLogin = (onSignedIn: () => void) => {
   const [email, setEmail] = useState("");
   const form = useValidatedAction(loginAction, loginSchema, onSignedIn);
   const needsVerification = form.failure?.error.code === "EMAIL_NOT_VERIFIED";
+  /** Adresse inconnue : le formulaire invite à s'inscrire au lieu d'afficher une simple erreur. */
+  const accountNotFound = form.failure?.error.code === "ACCOUNT_NOT_FOUND";
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     setEmail(String(new FormData(event.currentTarget).get("email") ?? "").trim().toLowerCase());
     form.handleSubmit(event);
   };
 
-  return { ...form, handleSubmit, email, needsVerification, serverError: needsVerification ? null : form.serverError };
+  return {
+    ...form,
+    handleSubmit,
+    email,
+    needsVerification,
+    accountNotFound,
+    serverError: needsVerification || accountNotFound ? null : form.serverError,
+  };
 };

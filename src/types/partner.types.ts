@@ -8,7 +8,7 @@ export type PartnerType = (typeof PARTNER_TYPES)[number];
 export const APPLICATION_STATUSES = ["DRAFT", "IN_REVIEW", "CHANGES_REQUESTED", "APPROVED", "REJECTED"] as const;
 export type ApplicationStatus = (typeof APPLICATION_STATUSES)[number];
 
-export const DOCUMENT_TYPES = ["RCCM", "NIU", "ID_CARD", "LOCATION_PLAN", "BUSINESS_LICENSE", "VEHICLE_INSURANCE"] as const;
+export const DOCUMENT_TYPES = ["RCCM", "NIU", "ID_CARD", "LOCATION_PLAN", "BUSINESS_LICENSE", "VEHICLE_INSURANCE", "LOGO"] as const;
 export type DocumentType = (typeof DOCUMENT_TYPES)[number];
 
 export const DOCUMENT_STATUSES = ["PENDING", "ACCEPTED", "REFUSED"] as const;
@@ -33,6 +33,8 @@ export type Application = {
   decidedAt: string | null;
   rejectionReason: string | null;
   requiredDocuments: DocumentType[];
+  /** Pièces facultatives (logo) : jamais exigées pour envoyer le dossier. */
+  optionalDocuments?: DocumentType[];
   documents: PartnerDocument[];
   canSubmit: boolean;
 };
@@ -50,3 +52,15 @@ export type PartnerSession = {
   partnerType: PartnerType;
   expiresAt: number;
 };
+
+/** Notification du compte partenaire (texte rendu par l'API dans la langue de la requête). */
+export type PartnerNotification = {
+  id: string;
+  type: string;
+  priority: "low" | "normal" | "high" | "critical";
+  title: string;
+  body: string;
+  createdAt: string;
+  readAt: string | null;
+};
+export type PartnerInbox = { items: PartnerNotification[]; total: number; unread: number; page: number; pageCount: number };
